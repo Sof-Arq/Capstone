@@ -51,10 +51,16 @@
       font-size: 1.2rem;
     }
 
+    nav div {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+
     nav a {
       color: white;
       text-decoration: none;
-      margin-left: 18px;
     }
 
     nav a:hover {
@@ -140,7 +146,7 @@
     }
 
     .content-section {
-      padding-top: 30px;
+      padding-top: 35px;
     }
 
     .overview h2,
@@ -193,14 +199,16 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     }
 
-    .architecture-summary {
+    .architecture-summary,
+    .state-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
       margin-top: 25px;
     }
 
-    .core-box {
+    .core-box,
+    .state-card {
       background: white;
       border-radius: 10px;
       padding: 24px;
@@ -208,16 +216,27 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     }
 
-    .core-box h3 {
+    .core-box h3,
+    .state-card h3 {
       margin-top: 0;
     }
 
-    .core-box ul {
+    .core-box ul,
+    .state-card ul {
       padding-left: 22px;
     }
 
-    .core-box li {
+    .core-box li,
+    .state-card li {
       margin-bottom: 7px;
+    }
+
+    .normal-state {
+      border-top-color: #2e7d52;
+    }
+
+    .fault-state {
+      border-top-color: #b15a16;
     }
 
     .table-container {
@@ -260,6 +279,18 @@
     }
 
     .result-box h3 {
+      margin-top: 0;
+    }
+
+    .warning-box {
+      background: #fff7e8;
+      border-left: 5px solid #b15a16;
+      padding: 22px;
+      margin-top: 24px;
+    }
+
+    .warning-box h3 {
+      color: #80430f;
       margin-top: 0;
     }
 
@@ -306,15 +337,24 @@
       white-space: nowrap;
     }
 
-    .hazard-summary {
-      background: #e8f2f5;
-      border-left: 5px solid #176b87;
-      padding: 22px;
-      margin-top: 24px;
+    .status-ok {
+      display: inline-block;
+      background: #dff1e6;
+      color: #215e3c;
+      border-radius: 20px;
+      padding: 5px 11px;
+      font-size: 0.9rem;
+      font-weight: bold;
     }
 
-    .hazard-summary h3 {
-      margin-top: 0;
+    .status-fault {
+      display: inline-block;
+      background: #fff0dd;
+      color: #80430f;
+      border-radius: 20px;
+      padding: 5px 11px;
+      font-size: 0.9rem;
+      font-weight: bold;
     }
 
     footer {
@@ -325,7 +365,7 @@
       margin-top: 40px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 950px) {
       h1 {
         font-size: 2.4rem;
       }
@@ -334,14 +374,25 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .architecture-summary {
+      .architecture-summary,
+      .state-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 760px) {
       header {
         position: static;
+      }
+
+      nav {
+        display: block;
+      }
+
+      nav div {
+        justify-content: flex-start;
+        margin-top: 10px;
+        gap: 12px;
       }
 
       .hero {
@@ -356,19 +407,6 @@
 
       .subtitle {
         font-size: 1.15rem;
-      }
-
-      nav {
-        display: block;
-      }
-
-      nav div {
-        margin-top: 10px;
-      }
-
-      nav a {
-        display: inline-block;
-        margin: 4px 12px 4px 0;
       }
 
       .feature-grid {
@@ -390,6 +428,7 @@
         <a href="#timing">WCET</a>
         <a href="#latency">Latency</a>
         <a href="#hazards">Hazards</a>
+        <a href="#degradation">Degradation</a>
 
         <a
           href="https://wokwi.com/projects/471019694429495297"
@@ -788,7 +827,7 @@
           <img
             class="evidence-image"
             src="assets/capstone-isr-logic-analyzer.png"
-            alt="Logic analyzer data showing the GPIO 18 patient-call edge and GPIO 19 ISR timing pulse">
+            alt="Logic analyzer text showing the GPIO 18 patient-call edge and GPIO 19 ISR timing pulse">
 
           <p class="caption">
             Logic-analyzer evidence showing the GPIO 18 patient-call
@@ -981,7 +1020,7 @@
         The hazard analysis identifies failures that could affect
         patient-call processing, timing behavior, and system
         observability. Each hazard includes a detection method and a
-        mitigation implemented in the prototype.
+        mitigation used in the prototype.
       </p>
 
       <div class="table-container">
@@ -993,7 +1032,6 @@
               <th>Possible Effect</th>
               <th>Detection</th>
               <th>Mitigation</th>
-              <th>Engineering Principle</th>
             </tr>
           </thead>
 
@@ -1014,18 +1052,14 @@
               </td>
 
               <td>
-                The observer compares the number of detected button
-                presses with the number of processed alerts.
+                Compare the detected button-press count with the
+                processed-alert count.
               </td>
 
               <td>
-                Use the direct task notification as the primary
-                path and report a state-of-health fault if the
-                counters do not agree.
-              </td>
-
-              <td>
-                Fail-visible behavior
+                Use the direct notification as the primary path and
+                report a state-of-health fault if the counters do
+                not agree.
               </td>
             </tr>
 
@@ -1044,17 +1078,13 @@
               </td>
 
               <td>
-                GPIO 19 exposes ISR execution as a logic-analyzer
-                pulse. Maximum response latency is also recorded.
+                GPIO 19 exposes ISR execution for logic-analyzer
+                measurement.
               </td>
 
               <td>
-                Keep the ISR short and bounded. Defer patient-alert
-                processing to FreeRTOS bottom-half tasks.
-              </td>
-
-              <td>
-                Bounded interrupt execution
+                Keep the ISR short and bounded and defer longer work
+                to bottom-half tasks.
               </td>
             </tr>
 
@@ -1069,22 +1099,18 @@
               </td>
 
               <td>
-                Patient-alert latency or periodic-task execution
-                time may increase.
+                Patient-alert latency or periodic-task WCET may
+                increase.
               </td>
 
               <td>
-                The system records IPC latency, periodic-task WCET,
-                and task heartbeat values.
+                Record IPC latency, WCET values, and task
+                heartbeats.
               </td>
 
               <td>
-                Pin the real-time plane to Core 1 and run serial
-                reporting and state-of-health monitoring on Core 0.
-              </td>
-
-              <td>
-                Freedom from interference
+                Pin real-time processing to Core 1 and observability
+                reporting to Core 0.
               </td>
             </tr>
 
@@ -1098,23 +1124,17 @@
               </td>
 
               <td>
-                ECG, arrhythmia, alarm, or patient-log information
-                may stop updating.
+                ECG, arrhythmia, alarm, or logging activity may stop
+                updating.
               </td>
 
               <td>
                 Each periodic task increments a heartbeat counter.
-                The observer checks whether the counters continue
-                changing.
               </td>
 
               <td>
-                Report a software-watchdog fault through the
-                state-of-health fault mask.
-              </td>
-
-              <td>
-                Continuous health monitoring
+                The state-of-health observer reports a software
+                watchdog fault when a heartbeat stops changing.
               </td>
             </tr>
 
@@ -1133,23 +1153,19 @@
               </td>
 
               <td>
-                Measure and store the last and maximum latency for
-                both the notification and semaphore paths.
+                Store and report the last and maximum latency for
+                both IPC paths.
               </td>
 
               <td>
-                Use the lower-latency direct task notification as
-                the selected primary patient-alert path.
-              </td>
-
-              <td>
-                Deterministic IPC selection
+                Use the direct task notification as the selected
+                primary patient-alert path.
               </td>
             </tr>
 
             <tr>
               <td>
-                Button bounce creates repeated patient-call events
+                Button bounce creates repeated events
               </td>
 
               <td>
@@ -1157,51 +1173,18 @@
               </td>
 
               <td>
-                One physical button press could be counted as
-                multiple patient requests.
+                One physical press could be counted as multiple
+                patient requests.
               </td>
 
               <td>
-                Monitor the press count and timing between
-                consecutive interrupts.
+                Monitor the timing between consecutive interrupt
+                events.
               </td>
 
               <td>
                 Apply bounded debounce logic before accepting
                 another GPIO 18 event.
-              </td>
-
-              <td>
-                Input validation
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                GPIO 19 measurement pulse does not appear
-              </td>
-
-              <td>
-                <span class="risk-medium">Medium</span>
-              </td>
-
-              <td>
-                ISR timing evidence cannot be verified using the
-                logic analyzer.
-              </td>
-
-              <td>
-                Compare the GPIO 18 input edge with the GPIO 19
-                signal in the VCD capture.
-              </td>
-
-              <td>
-                Toggle GPIO 19 directly inside the bounded ISR and
-                preserve the VCD capture as timing evidence.
-              </td>
-
-              <td>
-                Nonintrusive instrumentation
               </td>
             </tr>
 
@@ -1209,24 +1192,192 @@
         </table>
       </div>
 
-      <div class="hazard-summary">
+    </section>
 
-        <h3>Safety and Degradation Strategy</h3>
+    <section class="content-section" id="degradation">
+
+      <h2>Graceful Degradation and Fault Response</h2>
+
+      <p>
+        Graceful degradation means that the system does not silently
+        continue reporting a healthy condition after a monitored
+        function stops behaving correctly. The observability task
+        checks patient-call counters, periodic-task heartbeats,
+        latency measurements, and WCET evidence.
+      </p>
+
+      <p>
+        The essential patient-call interrupt and direct-notification
+        path remain on Core 1. Core 0 separately reports system
+        health so that slower reporting work does not directly block
+        the real-time alert path.
+      </p>
+
+      <div class="state-grid">
+
+        <article class="state-card normal-state">
+          <h3>
+            <span class="status-ok">Normal State</span>
+          </h3>
+
+          <ul>
+            <li>The Serial Monitor reports SOH=OK.</li>
+            <li>The fault mask remains 0x00.</li>
+            <li>Periodic-task heartbeats continue increasing.</li>
+            <li>Detected presses match processed alerts.</li>
+            <li>Latency and WCET values continue updating.</li>
+          </ul>
+        </article>
+
+        <article class="state-card fault-state">
+          <h3>
+            <span class="status-fault">Degraded State</span>
+          </h3>
+
+          <ul>
+            <li>A heartbeat stops changing.</li>
+            <li>Detected presses and processed alerts do not match.</li>
+            <li>The system reports an unhealthy state.</li>
+            <li>A nonzero fault mask identifies that a fault exists.</li>
+            <li>The available timing evidence remains visible for review.</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <h3>Fault Detection and Degraded Behavior</h3>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Fault Condition</th>
+              <th>How It Is Detected</th>
+              <th>Degraded Behavior</th>
+              <th>Protected Function</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>
+                A periodic monitoring task stops running
+              </td>
+
+              <td>
+                Its heartbeat counter stops increasing between
+                state-of-health checks.
+              </td>
+
+              <td>
+                Core 0 reports an unhealthy state and a nonzero
+                fault mask instead of continuing to report SOH=OK.
+              </td>
+
+              <td>
+                Other active tasks and the patient-call interrupt
+                path remain independently scheduled.
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                A patient-call interrupt is detected but the primary
+                alert task does not process it
+              </td>
+
+              <td>
+                The number of detected presses becomes greater than
+                the number of processed alerts.
+              </td>
+
+              <td>
+                The observer reports a counter mismatch as a
+                state-of-health fault.
+              </td>
+
+              <td>
+                The ISR remains short and continues signaling the
+                direct-notification path.
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Observability or serial reporting becomes delayed
+              </td>
+
+              <td>
+                Expected Core 0 state-of-health messages stop
+                appearing at their normal interval.
+              </td>
+
+              <td>
+                External visibility is reduced, but observability
+                work is separated from the Core 1 real-time plane.
+              </td>
+
+              <td>
+                The patient-call ISR and bottom-half processing on
+                Core 1 remain isolated from serial reporting.
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Measured latency or WCET increases
+              </td>
+
+              <td>
+                The stored maximum values increase in the
+                state-of-health output.
+              </td>
+
+              <td>
+                The system continues operating while preserving the
+                higher timing value for engineering review.
+              </td>
+
+              <td>
+                Timing degradation becomes visible instead of being
+                hidden.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="result-box">
+
+        <h3>Degradation Strategy</h3>
 
         <p>
-          The prototype does not silently assume that the system is
-          healthy. The Core 0 observer checks task heartbeats,
-          patient-call counters, latency values, and WCET values.
-          When a heartbeat stops or the detected-event and
-          processed-alert counters no longer agree, the system can
-          report a fault through the state-of-health mask.
+          The system separates fault detection from the essential
+          interrupt path. A failure in one monitored periodic task
+          does not require the ISR to perform extra work. The ISR
+          continues to record the patient-call event and notify the
+          primary bottom-half task while Core 0 reports the degraded
+          condition.
         </p>
 
         <p>
-          The essential patient-call ISR and direct-notification
-          path remain isolated on Core 1. This allows the system to
-          continue the time-sensitive alert path while Core 0
-          reports the degraded condition.
+          This design makes the fault visible while protecting the
+          time-sensitive path from additional logging and diagnostic
+          workload.
+        </p>
+
+      </div>
+
+      <div class="warning-box">
+
+        <h3>Prototype Scope</h3>
+
+        <p>
+          This prototype demonstrates fault detection, health
+          reporting, and core isolation. It does not automatically
+          restart a failed task, switch to redundant hardware, or
+          provide a certified clinical alarm. Those capabilities
+          would be future production-level enhancements.
         </p>
 
       </div>

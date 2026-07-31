@@ -1,1 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Patient Vital Monitor | Real-Time Systems Capstone</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7f9;
+      color: #1f2933;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #12344d;
+      color: white;
+      padding: 18px 8%;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    nav h2 {
+      font-size: 1.2rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 18px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #12344d, #176b87);
+      color: white;
+      padding: 80px 8%;
+      min-height: 540px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-content {
+      max-width: 850px;
+    }
+
+    .label {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 20px;
+      padding: 6px 14px;
+      margin-bottom: 22px;
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      font-size: 3.3rem;
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+
+    .subtitle {
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+      color: #d9edf5;
+    }
+
+    .summary {
+      font-size: 1.08rem;
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .primary-button {
+      background: white;
+      color: #12344d;
+    }
+
+    .secondary-button {
+      border: 2px solid white;
+      color: white;
+    }
+
+    .overview {
+      padding: 60px 8%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .overview h2 {
+      color: #12344d;
+      font-size: 2rem;
+      margin-bottom: 18px;
+    }
+
+    .overview p {
+      margin-bottom: 16px;
+      max-width: 900px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 35px;
+    }
+
+    .feature {
+      background: white;
+      border-radius: 10px;
+      padding: 24px;
+      border-top: 4px solid #176b87;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .feature h3 {
+      color: #12344d;
+      margin-bottom: 8px;
+    }
+
+    footer {
+      background: #12344d;
+      color: white;
+      text-align: center;
+      padding: 22px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 850px) {
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .hero {
+        padding-top: 55px;
+        padding-bottom: 55px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      nav div {
+        display: none;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav>
+      <h2>Patient Vital Monitor</h2>
+
+      <div>
+        <a href="#overview">Overview</a>
+        <a href="https://wokwi.com/projects/471019694429495297"
+           target="_blank">Wokwi</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+
+        <span class="label">
+          ESP32-S3 · FreeRTOS · Dual-Core Real-Time System
+        </span>
+
+        <h1>Patient Vital Monitor</h1>
+
+        <p class="subtitle">
+          Dual-Core Real-Time Interrupt Processing and System Health Monitoring
+        </p>
+
+        <p class="summary">
+          An ESP32-S3 patient vital monitor that processes patient-call
+          events through a bounded interrupt service routine and FreeRTOS
+          bottom-half tasks while measuring latency and system health under
+          periodic CPU load.
+        </p>
+
+        <div class="buttons">
+          <a class="button primary-button"
+             href="https://wokwi.com/projects/471019694429495297"
+             target="_blank">
+            Open Live Wokwi Project
+          </a>
+
+          <a class="button secondary-button" href="#overview">
+            View Project Overview
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="overview" id="overview">
+
+      <h2>Project Overview</h2>
+
+      <p>
+        The Patient Vital Monitor demonstrates how an embedded real-time
+        system can respond to a patient-call input while continuing to run
+        periodic medical-monitoring tasks. A pushbutton connected to GPIO 18
+        represents a patient requesting assistance.
+      </p>
+
+      <p>
+        The GPIO interrupt service routine remains short and bounded. It
+        records the interrupt time, produces a timing pulse on GPIO 19, and
+        signals FreeRTOS bottom-half tasks using a direct task notification
+        and a binary semaphore.
+      </p>
+
+      <p>
+        Core 1 contains the time-sensitive interrupt processing and periodic
+        workload. Core 0 performs state-of-health reporting, heartbeat checks,
+        latency reporting, and WCET monitoring. This separation prevents
+        observability work from directly blocking the real-time processing
+        path.
+      </p>
+
+      <div class="feature-grid">
+
+        <article class="feature">
+          <h3>Dual-Core Design</h3>
+          <p>
+            Real-time processing runs on Core 1 while system observability
+            runs on Core 0.
+          </p>
+        </article>
+
+        <article class="feature">
+          <h3>Bounded ISR</h3>
+          <p>
+            The ISR performs minimal work and defers longer processing to
+            FreeRTOS tasks.
+          </p>
+        </article>
+
+        <article class="feature">
+          <h3>Latency Evidence</h3>
+          <p>
+            Notification, semaphore, ISR, and periodic-task timing values are
+            measured during execution.
+          </p>
+        </article>
+
+        <article class="feature">
+          <h3>System Health</h3>
+          <p>
+            Heartbeats and event counters are monitored to detect stalled
+            tasks or missed patient-call events.
+          </p>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Real-Time Systems Final Integration Capstone</p>
+  </footer>
+
+</body>
+</html>

@@ -8,7 +8,7 @@ An ESP32-S3 patient vital monitor that processes patient-call events through a b
 - Live Wokwi simulation: https://wokwi.com/projects/471019694429495297
 - Demo video: To be added after the final recording
 - Main firmware: [docs/firmware/main.c](docs/firmware/main.c)
-- Wokwi hardware configuration: [firmware/diagram.json](firmware/diagram.json)
+- Wokwi hardware configuration: [docs/firmware/diagram.json](docs/firmware/diagram.json)
 
 ## Project Overview
 

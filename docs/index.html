@@ -13,6 +13,10 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #f4f7f9;
@@ -31,6 +35,8 @@
       justify-content: space-between;
       align-items: center;
       gap: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
 
     nav h2 {
@@ -43,6 +49,10 @@
       margin-left: 18px;
     }
 
+    nav a:hover {
+      text-decoration: underline;
+    }
+
     .hero {
       background: linear-gradient(135deg, #12344d, #176b87);
       color: white;
@@ -53,6 +63,12 @@
     }
 
     .hero-content {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hero-text {
       max-width: 850px;
     }
 
@@ -108,21 +124,23 @@
       color: white;
     }
 
-    .overview {
+    .overview,
+    .timing-section {
       padding: 60px 8%;
       max-width: 1200px;
       margin: auto;
     }
 
-    .overview h2 {
+    .overview h2,
+    .timing-section h2 {
       color: #12344d;
       font-size: 2rem;
       margin-bottom: 18px;
     }
 
-    .overview p {
+    .overview p,
+    .timing-section p {
       margin-bottom: 16px;
-      max-width: 900px;
     }
 
     .feature-grid {
@@ -145,6 +163,72 @@
       margin-bottom: 8px;
     }
 
+    .timing-section {
+      padding-top: 20px;
+    }
+
+    .timing-section h3 {
+      color: #12344d;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    th {
+      background: #12344d;
+      color: white;
+      text-align: left;
+      padding: 13px;
+    }
+
+    td {
+      padding: 13px;
+      border-bottom: 1px solid #d9e1e6;
+    }
+
+    tr:nth-child(even) {
+      background: #f4f7f9;
+    }
+
+    .timing-result {
+      background: white;
+      border-left: 5px solid #176b87;
+      padding: 22px;
+      margin-top: 24px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .timing-result h3 {
+      margin-top: 0;
+    }
+
+    .evidence-image {
+      display: block;
+      width: 100%;
+      max-width: 950px;
+      margin-top: 20px;
+      border: 1px solid #c9d4da;
+      border-radius: 8px;
+    }
+
+    .caption {
+      font-size: 0.9rem;
+      color: #52616b;
+      margin-top: 8px;
+    }
+
     footer {
       background: #12344d;
       color: white;
@@ -163,18 +247,32 @@
       }
     }
 
-    @media (max-width: 550px) {
+    @media (max-width: 600px) {
       .hero {
         padding-top: 55px;
         padding-bottom: 55px;
+        min-height: auto;
       }
 
       h1 {
         font-size: 2rem;
       }
 
+      .subtitle {
+        font-size: 1.15rem;
+      }
+
+      nav {
+        display: block;
+      }
+
       nav div {
-        display: none;
+        margin-top: 10px;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-right: 14px;
       }
 
       .feature-grid {
@@ -192,45 +290,55 @@
 
       <div>
         <a href="#overview">Overview</a>
-        <a href="https://wokwi.com/projects/471019694429495297"
-           target="_blank">Wokwi</a>
+        <a href="#timing">Timing</a>
+        <a
+          href="https://wokwi.com/projects/471019694429495297"
+          target="_blank"
+          rel="noopener">
+          Wokwi
+        </a>
       </div>
     </nav>
   </header>
 
   <main>
+
     <section class="hero">
       <div class="hero-content">
+        <div class="hero-text">
 
-        <span class="label">
-          ESP32-S3 · FreeRTOS · Dual-Core Real-Time System
-        </span>
+          <span class="label">
+            ESP32-S3 · FreeRTOS · Dual-Core Real-Time System
+          </span>
 
-        <h1>Patient Vital Monitor</h1>
+          <h1>Patient Vital Monitor</h1>
 
-        <p class="subtitle">
-          Dual-Core Real-Time Interrupt Processing and System Health Monitoring
-        </p>
+          <p class="subtitle">
+            Dual-Core Real-Time Interrupt Processing and System Health Monitoring
+          </p>
 
-        <p class="summary">
-          An ESP32-S3 patient vital monitor that processes patient-call
-          events through a bounded interrupt service routine and FreeRTOS
-          bottom-half tasks while measuring latency and system health under
-          periodic CPU load.
-        </p>
+          <p class="summary">
+            An ESP32-S3 patient vital monitor that processes patient-call
+            events through a bounded interrupt service routine and FreeRTOS
+            bottom-half tasks while measuring latency and system health under
+            periodic CPU load.
+          </p>
 
-        <div class="buttons">
-          <a class="button primary-button"
-             href="https://wokwi.com/projects/471019694429495297"
-             target="_blank">
-            Open Live Wokwi Project
-          </a>
+          <div class="buttons">
+            <a
+              class="button primary-button"
+              href="https://wokwi.com/projects/471019694429495297"
+              target="_blank"
+              rel="noopener">
+              Open Live Wokwi Project
+            </a>
 
-          <a class="button secondary-button" href="#overview">
-            View Project Overview
-          </a>
+            <a class="button secondary-button" href="#overview">
+              View Project Overview
+            </a>
+          </div>
+
         </div>
-
       </div>
     </section>
 
@@ -296,6 +404,194 @@
 
       </div>
     </section>
+
+    <section class="timing-section" id="timing">
+
+      <h2>Task Model and WCET Evidence</h2>
+
+      <p>
+        Four periodic patient-monitoring tasks execute on Core 1 to create
+        a realistic processor workload. Their worst-case execution times
+        were measured during the final integrated simulation.
+      </p>
+
+      <h3>Periodic Tasks</h3>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Medical Function</th>
+              <th>Core</th>
+              <th>Period</th>
+              <th>Deadline</th>
+              <th>Priority</th>
+              <th>Measured WCET</th>
+              <th>Utilization</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Task A</td>
+              <td>ECG sampling</td>
+              <td>1</td>
+              <td>10 ms</td>
+              <td>10 ms</td>
+              <td>15</td>
+              <td>141 &micro;s</td>
+              <td>0.01410</td>
+            </tr>
+
+            <tr>
+              <td>Task B</td>
+              <td>Arrhythmia detection</td>
+              <td>1</td>
+              <td>20 ms</td>
+              <td>20 ms</td>
+              <td>10</td>
+              <td>242 &micro;s</td>
+              <td>0.01210</td>
+            </tr>
+
+            <tr>
+              <td>Task C</td>
+              <td>Alarm dispatch</td>
+              <td>1</td>
+              <td>50 ms</td>
+              <td>50 ms</td>
+              <td>5</td>
+              <td>4249 &micro;s</td>
+              <td>0.08498</td>
+            </tr>
+
+            <tr>
+              <td>Task D</td>
+              <td>Patient logging</td>
+              <td>1</td>
+              <td>100 ms</td>
+              <td>100 ms</td>
+              <td>2</td>
+              <td>6498 &micro;s</td>
+              <td>0.06498</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="timing-result">
+
+        <h3>Utilization Analysis</h3>
+
+        <p>
+          The utilization of each periodic task is calculated using
+          U<sub>i</sub> = C<sub>i</sub> / T<sub>i</sub>, where C is the
+          measured worst-case execution time and T is the task period.
+        </p>
+
+        <p>
+          <strong>Total measured utilization:</strong>
+          U = 0.01410 + 0.01210 + 0.08498 + 0.06498 =
+          <strong>0.17616, or 17.616%.</strong>
+        </p>
+
+        <p>
+          The Rate-Monotonic sufficient utilization bound for four periodic
+          tasks is approximately 0.7568. Since 0.17616 is below 0.7568, the
+          measured workload satisfies the sufficient RMS utilization test.
+        </p>
+
+      </div>
+
+      <h3>Event-Driven Components</h3>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Type</th>
+              <th>Core</th>
+              <th>Priority or Context</th>
+              <th>Trigger</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>button_isr</td>
+              <td>ISR top half</td>
+              <td>1</td>
+              <td>Interrupt context</td>
+              <td>GPIO 18 falling edge</td>
+              <td>
+                Records the event time, pulses GPIO 19, and signals the
+                bottom-half tasks.
+              </td>
+            </tr>
+
+            <tr>
+              <td>patient_alert</td>
+              <td>Notification bottom half</td>
+              <td>1</td>
+              <td>Priority 12</td>
+              <td>Direct task notification</td>
+              <td>
+                Processes the primary patient-call event and measures
+                response latency.
+              </td>
+            </tr>
+
+            <tr>
+              <td>sem_compare</td>
+              <td>Comparison bottom half</td>
+              <td>1</td>
+              <td>Priority 12</td>
+              <td>Binary semaphore</td>
+              <td>
+                Provides an IPC latency comparison against the direct
+                notification path.
+              </td>
+            </tr>
+
+            <tr>
+              <td>soh_observer</td>
+              <td>Observability task</td>
+              <td>0</td>
+              <td>Priority 3</td>
+              <td>One-second period</td>
+              <td>
+                Reports heartbeats, WCET values, latency measurements,
+                event counters, and system health.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Runtime Evidence</h3>
+
+      <p>
+        The Serial Monitor shows the state-of-health result, patient-call
+        counters, task heartbeats, latency measurements, and maximum measured
+        execution times during the final integrated run.
+      </p>
+
+      <img
+        class="evidence-image"
+        src="assets/capstone-serial-soh.png"
+        alt="Serial Monitor showing state of health, patient call counters, latency, task heartbeats, and WCET measurements">
+
+      <p class="caption">
+        Final integrated run showing SOH=OK, five detected patient calls,
+        five processed alerts, latency measurements, and periodic-task WCET
+        evidence.
+      </p>
+
+    </section>
+
   </main>
 
   <footer>

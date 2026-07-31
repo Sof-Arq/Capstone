@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Patient Vital Monitor | Real-Time Systems Capstone</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Patient Vital Monitor | Real-Time Systems Capstone
+  </title>
 
   <style>
     * {
@@ -25,6 +30,9 @@
     }
 
     header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
       background: #12344d;
       color: white;
       padding: 18px 8%;
@@ -132,7 +140,7 @@
     }
 
     .content-section {
-      padding-top: 20px;
+      padding-top: 30px;
     }
 
     .overview h2,
@@ -173,6 +181,45 @@
       margin-bottom: 8px;
     }
 
+    .architecture-image {
+      display: block;
+      width: 100%;
+      max-width: 1000px;
+      margin: 25px auto 12px;
+      background: white;
+      border: 1px solid #c9d4da;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .architecture-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .core-box {
+      background: white;
+      border-radius: 10px;
+      padding: 24px;
+      border-top: 4px solid #176b87;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .core-box h3 {
+      margin-top: 0;
+    }
+
+    .core-box ul {
+      padding-left: 22px;
+    }
+
+    .core-box li {
+      margin-bottom: 7px;
+    }
+
     .table-container {
       overflow-x: auto;
       margin: 24px 0;
@@ -191,11 +238,13 @@
       color: white;
       text-align: left;
       padding: 13px;
+      vertical-align: top;
     }
 
     td {
       padding: 13px;
       border-bottom: 1px solid #d9e1e6;
+      vertical-align: top;
     }
 
     tr:nth-child(even) {
@@ -214,11 +263,17 @@
       margin-top: 0;
     }
 
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
     .evidence-image {
       display: block;
       width: 100%;
       max-width: 950px;
-      margin-top: 20px;
       border: 1px solid #c9d4da;
       border-radius: 8px;
     }
@@ -229,6 +284,39 @@
       margin-top: 8px;
     }
 
+    .risk-high {
+      display: inline-block;
+      background: #f8d7da;
+      color: #842029;
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .risk-medium {
+      display: inline-block;
+      background: #fff3cd;
+      color: #664d03;
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .hazard-summary {
+      background: #e8f2f5;
+      border-left: 5px solid #176b87;
+      padding: 22px;
+      margin-top: 24px;
+    }
+
+    .hazard-summary h3 {
+      margin-top: 0;
+    }
+
     footer {
       background: #12344d;
       color: white;
@@ -237,7 +325,7 @@
       margin-top: 40px;
     }
 
-    @media (max-width: 850px) {
+    @media (max-width: 900px) {
       h1 {
         font-size: 2.4rem;
       }
@@ -245,9 +333,17 @@
       .feature-grid {
         grid-template-columns: 1fr 1fr;
       }
+
+      .architecture-summary {
+        grid-template-columns: 1fr;
+      }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
+      header {
+        position: static;
+      }
+
       .hero {
         padding-top: 55px;
         padding-bottom: 55px;
@@ -271,8 +367,8 @@
       }
 
       nav a {
-        margin-left: 0;
-        margin-right: 14px;
+        display: inline-block;
+        margin: 4px 12px 4px 0;
       }
 
       .feature-grid {
@@ -290,8 +386,11 @@
 
       <div>
         <a href="#overview">Overview</a>
+        <a href="#architecture">Architecture</a>
         <a href="#timing">WCET</a>
         <a href="#latency">Latency</a>
+        <a href="#hazards">Hazards</a>
+
         <a
           href="https://wokwi.com/projects/471019694429495297"
           target="_blank"
@@ -315,14 +414,15 @@
           <h1>Patient Vital Monitor</h1>
 
           <p class="subtitle">
-            Dual-Core Real-Time Interrupt Processing and System Health Monitoring
+            Dual-Core Real-Time Interrupt Processing and
+            System Health Monitoring
           </p>
 
           <p class="summary">
-            An ESP32-S3 patient vital monitor that processes patient-call
-            events through a bounded interrupt service routine and FreeRTOS
-            bottom-half tasks while measuring latency and system health under
-            periodic CPU load.
+            An ESP32-S3 patient vital monitor that processes
+            patient-call events through a bounded interrupt service
+            routine and FreeRTOS bottom-half tasks while measuring
+            latency and system health under periodic CPU load.
           </p>
 
           <div class="buttons">
@@ -334,7 +434,9 @@
               Open Live Wokwi Project
             </a>
 
-            <a class="button secondary-button" href="#overview">
+            <a
+              class="button secondary-button"
+              href="#overview">
               View Project Overview
             </a>
           </div>
@@ -348,62 +450,142 @@
       <h2>Project Overview</h2>
 
       <p>
-        The Patient Vital Monitor demonstrates how an embedded real-time
-        system can respond to a patient-call input while continuing to run
-        periodic medical-monitoring tasks. A pushbutton connected to GPIO 18
-        represents a patient requesting assistance.
+        The Patient Vital Monitor demonstrates how an embedded
+        real-time system can respond to a patient-call input while
+        continuing to run periodic medical-monitoring tasks. A
+        pushbutton connected to GPIO 18 represents a patient
+        requesting assistance.
       </p>
 
       <p>
-        The GPIO interrupt service routine remains short and bounded. It
-        records the interrupt time, produces a timing pulse on GPIO 19, and
-        signals FreeRTOS bottom-half tasks using a direct task notification
-        and a binary semaphore.
+        The GPIO interrupt service routine remains short and bounded.
+        It records the interrupt time, produces a timing pulse on
+        GPIO 19, and signals FreeRTOS bottom-half tasks using a direct
+        task notification and a binary semaphore.
       </p>
 
       <p>
-        Core 1 contains the time-sensitive interrupt processing and periodic
-        workload. Core 0 performs state-of-health reporting, heartbeat checks,
-        latency reporting, and WCET monitoring. This separation prevents
-        observability work from directly blocking the real-time processing
-        path.
+        Core 1 contains the time-sensitive interrupt processing and
+        periodic workload. Core 0 performs state-of-health reporting,
+        heartbeat checks, latency reporting, and WCET monitoring.
+        This separation prevents observability work from directly
+        blocking the real-time processing path.
       </p>
 
       <div class="feature-grid">
 
         <article class="feature">
           <h3>Dual-Core Design</h3>
+
           <p>
-            Real-time processing runs on Core 1 while system observability
-            runs on Core 0.
+            Real-time processing runs on Core 1 while system
+            observability runs on Core 0.
           </p>
         </article>
 
         <article class="feature">
           <h3>Bounded ISR</h3>
+
           <p>
-            The ISR performs minimal work and defers longer processing to
-            FreeRTOS tasks.
+            The ISR performs minimal work and defers longer
+            processing to FreeRTOS tasks.
           </p>
         </article>
 
         <article class="feature">
           <h3>Latency Evidence</h3>
+
           <p>
-            Notification, semaphore, ISR, and periodic-task timing values are
-            measured during execution.
+            Notification, semaphore, ISR, and periodic-task timing
+            values are measured during execution.
           </p>
         </article>
 
         <article class="feature">
           <h3>System Health</h3>
+
           <p>
-            Heartbeats and event counters are monitored to detect stalled
-            tasks or missed patient-call events.
+            Heartbeats and event counters are monitored to detect
+            stalled tasks or missed patient-call events.
           </p>
         </article>
 
       </div>
+    </section>
+
+    <section class="content-section" id="architecture">
+
+      <h2>System and Concurrency Architecture</h2>
+
+      <p>
+        The architecture separates time-sensitive patient-call
+        processing from system observation and reporting. The
+        patient-call button is connected to GPIO 18. A falling edge
+        activates the interrupt service routine on Core 1.
+      </p>
+
+      <p>
+        The ISR records the event time, produces a short pulse on
+        GPIO 19 for logic-analyzer measurement, and signals the
+        bottom-half tasks. Longer processing is deferred outside the
+        interrupt context.
+      </p>
+
+      <img
+        class="architecture-image"
+        src="architecture.png"
+        alt="Patient Vital Monitor concurrency and system architecture diagram">
+
+      <p class="caption">
+        Application 3 concurrency diagram showing the patient-call
+        ISR, direct task notification, binary semaphore, bottom-half
+        tasks, and periodic patient-monitoring workload.
+      </p>
+
+      <div class="architecture-summary">
+
+        <article class="core-box">
+          <h3>Core 1 — Real-Time Plane</h3>
+
+          <ul>
+            <li>GPIO 18 patient-call interrupt</li>
+            <li>GPIO 19 ISR timing pulse</li>
+            <li>Direct-notification patient-alert task</li>
+            <li>Binary-semaphore comparison task</li>
+            <li>ECG sampling task</li>
+            <li>Arrhythmia detection task</li>
+            <li>Alarm dispatch task</li>
+            <li>Patient logging task</li>
+          </ul>
+        </article>
+
+        <article class="core-box">
+          <h3>Core 0 — Observability Plane</h3>
+
+          <ul>
+            <li>State-of-health reporting</li>
+            <li>Periodic-task heartbeat monitoring</li>
+            <li>Software-watchdog checks</li>
+            <li>Interrupt-latency reporting</li>
+            <li>WCET reporting</li>
+            <li>Patient-call counter verification</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <div class="result-box">
+        <h3>Core-Pinning Defense</h3>
+
+        <p>
+          Core 1 is reserved for the ISR, bottom-half tasks, and
+          periodic real-time workload. Core 0 handles slower serial
+          reporting and state-of-health monitoring. This reduces the
+          chance that observability work will interfere with the
+          patient-alert response path.
+        </p>
+      </div>
+
     </section>
 
     <section class="content-section" id="timing">
@@ -411,9 +593,10 @@
       <h2>Task Model and WCET Evidence</h2>
 
       <p>
-        Four periodic patient-monitoring tasks execute on Core 1 to create
-        a realistic processor workload. Their worst-case execution times
-        were measured during the final integrated simulation.
+        Four periodic patient-monitoring tasks execute on Core 1 to
+        create a realistic processor workload. Their worst-case
+        execution times were measured during the final integrated
+        simulation.
       </p>
 
       <h3>Periodic Tasks</h3>
@@ -487,8 +670,9 @@
 
         <p>
           The utilization of each periodic task is calculated using
-          U<sub>i</sub> = C<sub>i</sub> / T<sub>i</sub>, where C is the
-          measured worst-case execution time and T is the task period.
+          U<sub>i</sub> = C<sub>i</sub> / T<sub>i</sub>, where C is
+          the measured worst-case execution time and T is the task
+          period.
         </p>
 
         <p>
@@ -498,9 +682,10 @@
         </p>
 
         <p>
-          The Rate-Monotonic sufficient utilization bound for four periodic
-          tasks is approximately 0.7568. Since 0.17616 is below 0.7568, the
-          measured workload satisfies the sufficient RMS utilization test.
+          The Rate-Monotonic sufficient utilization bound for four
+          periodic tasks is approximately 0.7568. Since 0.17616 is
+          below 0.7568, the measured workload satisfies the
+          sufficient RMS utilization test.
         </p>
 
       </div>
@@ -527,9 +712,10 @@
               <td>1</td>
               <td>Interrupt context</td>
               <td>GPIO 18 falling edge</td>
+
               <td>
-                Records the event time, pulses GPIO 19, and signals the
-                bottom-half tasks.
+                Records the event time, pulses GPIO 19, and signals
+                the bottom-half tasks.
               </td>
             </tr>
 
@@ -539,9 +725,10 @@
               <td>1</td>
               <td>Priority 12</td>
               <td>Direct task notification</td>
+
               <td>
-                Processes the primary patient-call event and measures
-                response latency.
+                Processes the primary patient-call event and
+                measures response latency.
               </td>
             </tr>
 
@@ -551,9 +738,10 @@
               <td>1</td>
               <td>Priority 12</td>
               <td>Binary semaphore</td>
+
               <td>
-                Provides an IPC latency comparison against the direct
-                notification path.
+                Provides an IPC latency comparison against the
+                direct-notification path.
               </td>
             </tr>
 
@@ -563,9 +751,10 @@
               <td>0</td>
               <td>Priority 3</td>
               <td>One-second period</td>
+
               <td>
-                Reports heartbeats, WCET values, latency measurements,
-                event counters, and system health.
+                Reports heartbeats, WCET values, latency
+                measurements, event counters, and system health.
               </td>
             </tr>
           </tbody>
@@ -575,21 +764,40 @@
       <h3>Runtime Evidence</h3>
 
       <p>
-        The Serial Monitor shows the state-of-health result, patient-call
-        counters, task heartbeats, latency measurements, and maximum measured
-        execution times during the final integrated run.
+        The Serial Monitor shows the state-of-health result,
+        patient-call counters, task heartbeats, latency measurements,
+        and maximum execution times during the final integrated run.
       </p>
 
-      <img
-        class="evidence-image"
-        src="assets/capstone-serial-soh.png"
-        alt="Serial Monitor showing state of health, patient call counters, latency, task heartbeats, and WCET measurements">
+      <div class="evidence-grid">
 
-      <p class="caption">
-        Final integrated run showing SOH=OK, five detected patient calls,
-        five processed alerts, latency measurements, and periodic-task WCET
-        evidence.
-      </p>
+        <div>
+          <img
+            class="evidence-image"
+            src="assets/capstone-serial-soh.png"
+            alt="Serial Monitor showing system health, patient-call counters, latency, heartbeats, and WCET measurements">
+
+          <p class="caption">
+            Final run showing SOH=OK, five detected patient calls,
+            five processed alerts, IPC latency measurements, and
+            periodic-task WCET evidence.
+          </p>
+        </div>
+
+        <div>
+          <img
+            class="evidence-image"
+            src="assets/capstone-isr-logic-analyzer.png"
+            alt="Logic analyzer data showing the GPIO 18 patient-call edge and GPIO 19 ISR timing pulse">
+
+          <p class="caption">
+            Logic-analyzer evidence showing the GPIO 18 patient-call
+            transition and the corresponding GPIO 19 ISR timing
+            pulse.
+          </p>
+        </div>
+
+      </div>
 
     </section>
 
@@ -598,18 +806,19 @@
       <h2>Interrupt and IPC Timing Results</h2>
 
       <p>
-        The patient-call interrupt signals two FreeRTOS bottom-half tasks.
-        The primary path uses a direct task notification, while the comparison
-        path uses a binary semaphore. Application 3 measured the response
-        latency of both mechanisms under idle and loaded operating conditions.
+        The patient-call interrupt signals two FreeRTOS bottom-half
+        tasks. The primary path uses a direct task notification,
+        while the comparison path uses a binary semaphore.
+        Application 3 measured the response latency of both
+        mechanisms under idle and loaded operating conditions.
       </p>
 
       <h3>Original Application 3 Experiment</h3>
 
       <p>
-        Each operating mode used 55 patient-call trials. WITH_LOAD = 0
-        represents the idle condition. WITH_LOAD = 1 enables the four periodic
-        patient-monitoring tasks on Core 1.
+        Each operating mode used 55 patient-call trials.
+        WITH_LOAD = 0 represents the idle condition. WITH_LOAD = 1
+        enables the four periodic patient-monitoring tasks on Core 1.
       </p>
 
       <div class="table-container">
@@ -649,18 +858,17 @@
         <h3>Original Experiment Result</h3>
 
         <p>
-          The direct task notification produced the lower maximum response
-          latency in both operating modes. Its maximum latency increased from
-          30 &micro;s in the idle condition to 2884 &micro;s under periodic
-          processor load.
+          The direct task notification produced the lower maximum
+          response latency in both operating modes. Its maximum
+          latency increased from 30 &micro;s in the idle condition
+          to 2884 &micro;s under periodic processor load.
         </p>
 
         <p>
-          The binary semaphore path measured 2912 &micro;s while idle and
-          3254 &micro;s under load. Based on the controlled 55-trial
-          comparison, the direct task notification was selected as the
-          primary patient-alert mechanism. The semaphore remained as a
-          comparison path.
+          The binary semaphore path measured 2912 &micro;s while
+          idle and 3254 &micro;s under load. Based on the controlled
+          55-trial comparison, the direct task notification was
+          selected as the primary patient-alert mechanism.
         </p>
 
       </div>
@@ -697,18 +905,19 @@
       </div>
 
       <p>
-        The notification path remained faster than the semaphore path in both
-        modes, although its measured maximum was much more sensitive to the
-        added periodic workload. The semaphore path began with a much higher
-        idle maximum and changed less when the background workload was added.
+        The notification path remained faster than the semaphore
+        path in both modes, although its measured maximum was more
+        sensitive to the added periodic workload. The semaphore path
+        began with a much higher idle maximum and changed less when
+        the workload was added.
       </p>
 
       <h3>Final Integrated Capstone Run</h3>
 
       <p>
-        The final integrated system was tested with five patient-call events
-        while the periodic task load and Core 0 state-of-health observer were
-        active.
+        The final integrated system was tested with five
+        patient-call events while the periodic workload and Core 0
+        state-of-health observer were active.
       </p>
 
       <div class="table-container">
@@ -745,18 +954,279 @@
         <h3>Final Run Interpretation</h3>
 
         <p>
-          The final run confirmed that all five detected patient-call events
-          were processed while the periodic medical workload and
-          state-of-health monitoring remained active.
+          The final run confirmed that all five detected patient-call
+          events were processed while the periodic medical workload
+          and state-of-health monitoring remained active.
         </p>
 
         <p>
-          This five-event run was used to validate the final integrated
-          prototype. It was not a repeat of the original controlled 55-trial
-          comparison because the capstone added Core 0 observability and
-          reorganized the logging behavior. Therefore, the original
-          Application 3 experiment remains the primary evidence for selecting
-          the direct task notification.
+          This five-event run was used to validate the integrated
+          prototype. It was not a repeat of the original controlled
+          55-trial comparison because the capstone added Core 0
+          observability and reorganized the logging behavior.
+          Therefore, the original Application 3 experiment remains
+          the primary evidence for selecting the direct task
+          notification.
+        </p>
+
+      </div>
+
+    </section>
+
+    <section class="content-section" id="hazards">
+
+      <h2>Hazard Analysis</h2>
+
+      <p>
+        The hazard analysis identifies failures that could affect
+        patient-call processing, timing behavior, and system
+        observability. Each hazard includes a detection method and a
+        mitigation implemented in the prototype.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Hazard</th>
+              <th>Risk</th>
+              <th>Possible Effect</th>
+              <th>Detection</th>
+              <th>Mitigation</th>
+              <th>Engineering Principle</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>
+                Patient-call event is detected but not processed
+              </td>
+
+              <td>
+                <span class="risk-high">High</span>
+              </td>
+
+              <td>
+                A patient request may not reach the alert-processing
+                task.
+              </td>
+
+              <td>
+                The observer compares the number of detected button
+                presses with the number of processed alerts.
+              </td>
+
+              <td>
+                Use the direct task notification as the primary
+                path and report a state-of-health fault if the
+                counters do not agree.
+              </td>
+
+              <td>
+                Fail-visible behavior
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Interrupt service routine performs excessive work
+              </td>
+
+              <td>
+                <span class="risk-high">High</span>
+              </td>
+
+              <td>
+                Longer interrupt blocking and increased response
+                latency may affect real-time deadlines.
+              </td>
+
+              <td>
+                GPIO 19 exposes ISR execution as a logic-analyzer
+                pulse. Maximum response latency is also recorded.
+              </td>
+
+              <td>
+                Keep the ISR short and bounded. Defer patient-alert
+                processing to FreeRTOS bottom-half tasks.
+              </td>
+
+              <td>
+                Bounded interrupt execution
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Observability or serial reporting interferes with
+                real-time work
+              </td>
+
+              <td>
+                <span class="risk-high">High</span>
+              </td>
+
+              <td>
+                Patient-alert latency or periodic-task execution
+                time may increase.
+              </td>
+
+              <td>
+                The system records IPC latency, periodic-task WCET,
+                and task heartbeat values.
+              </td>
+
+              <td>
+                Pin the real-time plane to Core 1 and run serial
+                reporting and state-of-health monitoring on Core 0.
+              </td>
+
+              <td>
+                Freedom from interference
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Periodic patient-monitoring task stalls
+              </td>
+
+              <td>
+                <span class="risk-high">High</span>
+              </td>
+
+              <td>
+                ECG, arrhythmia, alarm, or patient-log information
+                may stop updating.
+              </td>
+
+              <td>
+                Each periodic task increments a heartbeat counter.
+                The observer checks whether the counters continue
+                changing.
+              </td>
+
+              <td>
+                Report a software-watchdog fault through the
+                state-of-health fault mask.
+              </td>
+
+              <td>
+                Continuous health monitoring
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                IPC response latency becomes excessive
+              </td>
+
+              <td>
+                <span class="risk-high">High</span>
+              </td>
+
+              <td>
+                Processing of a patient-call event may be delayed
+                under processor load.
+              </td>
+
+              <td>
+                Measure and store the last and maximum latency for
+                both the notification and semaphore paths.
+              </td>
+
+              <td>
+                Use the lower-latency direct task notification as
+                the selected primary patient-alert path.
+              </td>
+
+              <td>
+                Deterministic IPC selection
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Button bounce creates repeated patient-call events
+              </td>
+
+              <td>
+                <span class="risk-medium">Medium</span>
+              </td>
+
+              <td>
+                One physical button press could be counted as
+                multiple patient requests.
+              </td>
+
+              <td>
+                Monitor the press count and timing between
+                consecutive interrupts.
+              </td>
+
+              <td>
+                Apply bounded debounce logic before accepting
+                another GPIO 18 event.
+              </td>
+
+              <td>
+                Input validation
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                GPIO 19 measurement pulse does not appear
+              </td>
+
+              <td>
+                <span class="risk-medium">Medium</span>
+              </td>
+
+              <td>
+                ISR timing evidence cannot be verified using the
+                logic analyzer.
+              </td>
+
+              <td>
+                Compare the GPIO 18 input edge with the GPIO 19
+                signal in the VCD capture.
+              </td>
+
+              <td>
+                Toggle GPIO 19 directly inside the bounded ISR and
+                preserve the VCD capture as timing evidence.
+              </td>
+
+              <td>
+                Nonintrusive instrumentation
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="hazard-summary">
+
+        <h3>Safety and Degradation Strategy</h3>
+
+        <p>
+          The prototype does not silently assume that the system is
+          healthy. The Core 0 observer checks task heartbeats,
+          patient-call counters, latency values, and WCET values.
+          When a heartbeat stops or the detected-event and
+          processed-alert counters no longer agree, the system can
+          report a fault through the state-of-health mask.
+        </p>
+
+        <p>
+          The essential patient-call ISR and direct-notification
+          path remain isolated on Core 1. This allows the system to
+          continue the time-sensitive alert path while Core 0
+          reports the degraded condition.
         </p>
 
       </div>
@@ -766,7 +1236,10 @@
   </main>
 
   <footer>
-    <p>Real-Time Systems Final Integration Capstone</p>
+    <p>
+      Patient Vital Monitor · Real-Time Systems Final Integration
+      Capstone
+    </p>
   </footer>
 
 </body>

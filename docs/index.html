@@ -125,22 +125,32 @@
     }
 
     .overview,
-    .timing-section {
+    .content-section {
       padding: 60px 8%;
       max-width: 1200px;
       margin: auto;
     }
 
+    .content-section {
+      padding-top: 20px;
+    }
+
     .overview h2,
-    .timing-section h2 {
+    .content-section h2 {
       color: #12344d;
       font-size: 2rem;
       margin-bottom: 18px;
     }
 
     .overview p,
-    .timing-section p {
+    .content-section p {
       margin-bottom: 16px;
+    }
+
+    .content-section h3 {
+      color: #12344d;
+      margin-top: 32px;
+      margin-bottom: 12px;
     }
 
     .feature-grid {
@@ -161,16 +171,6 @@
     .feature h3 {
       color: #12344d;
       margin-bottom: 8px;
-    }
-
-    .timing-section {
-      padding-top: 20px;
-    }
-
-    .timing-section h3 {
-      color: #12344d;
-      margin-top: 32px;
-      margin-bottom: 12px;
     }
 
     .table-container {
@@ -202,7 +202,7 @@
       background: #f4f7f9;
     }
 
-    .timing-result {
+    .result-box {
       background: white;
       border-left: 5px solid #176b87;
       padding: 22px;
@@ -210,7 +210,7 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     }
 
-    .timing-result h3 {
+    .result-box h3 {
       margin-top: 0;
     }
 
@@ -290,7 +290,8 @@
 
       <div>
         <a href="#overview">Overview</a>
-        <a href="#timing">Timing</a>
+        <a href="#timing">WCET</a>
+        <a href="#latency">Latency</a>
         <a
           href="https://wokwi.com/projects/471019694429495297"
           target="_blank"
@@ -405,7 +406,7 @@
       </div>
     </section>
 
-    <section class="timing-section" id="timing">
+    <section class="content-section" id="timing">
 
       <h2>Task Model and WCET Evidence</h2>
 
@@ -480,7 +481,7 @@
         </table>
       </div>
 
-      <div class="timing-result">
+      <div class="result-box">
 
         <h3>Utilization Analysis</h3>
 
@@ -589,6 +590,176 @@
         five processed alerts, latency measurements, and periodic-task WCET
         evidence.
       </p>
+
+    </section>
+
+    <section class="content-section" id="latency">
+
+      <h2>Interrupt and IPC Timing Results</h2>
+
+      <p>
+        The patient-call interrupt signals two FreeRTOS bottom-half tasks.
+        The primary path uses a direct task notification, while the comparison
+        path uses a binary semaphore. Application 3 measured the response
+        latency of both mechanisms under idle and loaded operating conditions.
+      </p>
+
+      <h3>Original Application 3 Experiment</h3>
+
+      <p>
+        Each operating mode used 55 patient-call trials. WITH_LOAD = 0
+        represents the idle condition. WITH_LOAD = 1 enables the four periodic
+        patient-monitoring tasks on Core 1.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Operating Mode</th>
+              <th>Trials</th>
+              <th>Notification Maximum</th>
+              <th>Semaphore Maximum</th>
+              <th>Faster Path</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Idle — WITH_LOAD = 0</td>
+              <td>55</td>
+              <td>30 &micro;s</td>
+              <td>2912 &micro;s</td>
+              <td>Direct task notification</td>
+            </tr>
+
+            <tr>
+              <td>Loaded — WITH_LOAD = 1</td>
+              <td>55</td>
+              <td>2884 &micro;s</td>
+              <td>3254 &micro;s</td>
+              <td>Direct task notification</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="result-box">
+
+        <h3>Original Experiment Result</h3>
+
+        <p>
+          The direct task notification produced the lower maximum response
+          latency in both operating modes. Its maximum latency increased from
+          30 &micro;s in the idle condition to 2884 &micro;s under periodic
+          processor load.
+        </p>
+
+        <p>
+          The binary semaphore path measured 2912 &micro;s while idle and
+          3254 &micro;s under load. Based on the controlled 55-trial
+          comparison, the direct task notification was selected as the
+          primary patient-alert mechanism. The semaphore remained as a
+          comparison path.
+        </p>
+
+      </div>
+
+      <h3>Loaded Versus Idle Effect</h3>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>IPC Path</th>
+              <th>Idle Maximum</th>
+              <th>Loaded Maximum</th>
+              <th>Loaded / Idle Factor</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Direct task notification</td>
+              <td>30 &micro;s</td>
+              <td>2884 &micro;s</td>
+              <td>96.1&times;</td>
+            </tr>
+
+            <tr>
+              <td>Binary semaphore</td>
+              <td>2912 &micro;s</td>
+              <td>3254 &micro;s</td>
+              <td>1.12&times;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        The notification path remained faster than the semaphore path in both
+        modes, although its measured maximum was much more sensitive to the
+        added periodic workload. The semaphore path began with a much higher
+        idle maximum and changed less when the background workload was added.
+      </p>
+
+      <h3>Final Integrated Capstone Run</h3>
+
+      <p>
+        The final integrated system was tested with five patient-call events
+        while the periodic task load and Core 0 state-of-health observer were
+        active.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>IPC Path</th>
+              <th>Last Measured Latency</th>
+              <th>Maximum Measured Latency</th>
+              <th>Processed Events</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Direct task notification</td>
+              <td>131 &micro;s</td>
+              <td>219 &micro;s</td>
+              <td>5</td>
+            </tr>
+
+            <tr>
+              <td>Binary semaphore</td>
+              <td>89 &micro;s</td>
+              <td>177 &micro;s</td>
+              <td>5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="result-box">
+
+        <h3>Final Run Interpretation</h3>
+
+        <p>
+          The final run confirmed that all five detected patient-call events
+          were processed while the periodic medical workload and
+          state-of-health monitoring remained active.
+        </p>
+
+        <p>
+          This five-event run was used to validate the final integrated
+          prototype. It was not a repeat of the original controlled 55-trial
+          comparison because the capstone added Core 0 observability and
+          reorganized the logging behavior. Therefore, the original
+          Application 3 experiment remains the primary evidence for selecting
+          the direct task notification.
+        </p>
+
+      </div>
 
     </section>
 

@@ -6,7 +6,7 @@ An ESP32-S3 patient vital monitor that processes patient-call events through a b
 
 - Portfolio site: https://Sof-Arq.github.io/Capstone/
 - Live Wokwi simulation: https://wokwi.com/projects/471019694429495297
-- Demo video: To be added after the final recording
+- Demo video: Demo video: [Watch the Patient Vital Monitor demonstration](https://youtu.be/YSD9WOmxKe0)
 - Main firmware: [docs/firmware/main.c](docs/firmware/main.c)
 - Wokwi hardware configuration: [docs/firmware/diagram.json](docs/firmware/diagram.json)
 

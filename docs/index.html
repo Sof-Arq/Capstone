@@ -35,7 +35,7 @@
       z-index: 1000;
       background: #12344d;
       color: white;
-      padding: 18px 8%;
+      padding: 18px 6%;
     }
 
     nav {
@@ -43,12 +43,13 @@
       justify-content: space-between;
       align-items: center;
       gap: 20px;
-      max-width: 1200px;
+      max-width: 1250px;
       margin: auto;
     }
 
     nav h2 {
       font-size: 1.2rem;
+      white-space: nowrap;
     }
 
     nav div {
@@ -185,6 +186,42 @@
     .feature h3 {
       color: #12344d;
       margin-bottom: 8px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      height: 0;
+      padding-bottom: 56.25%;
+      margin: 25px auto 15px;
+      overflow: hidden;
+      background: black;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-button {
+      display: inline-block;
+      background: #176b87;
+      color: white;
+      padding: 11px 18px;
+      margin-top: 10px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .video-button:hover {
+      background: #12344d;
     }
 
     .architecture-image {
@@ -365,6 +402,10 @@
       margin-top: 40px;
     }
 
+    footer a {
+      color: white;
+    }
+
     @media (max-width: 950px) {
       h1 {
         font-size: 2.4rem;
@@ -424,11 +465,19 @@
 
       <div>
         <a href="#overview">Overview</a>
+        <a href="#demo">Demo</a>
         <a href="#architecture">Architecture</a>
         <a href="#timing">WCET</a>
         <a href="#latency">Latency</a>
         <a href="#hazards">Hazards</a>
         <a href="#degradation">Degradation</a>
+
+        <a
+          href="https://github.com/Sof-Arq/Capstone"
+          target="_blank"
+          rel="noopener">
+          README
+        </a>
 
         <a
           href="https://wokwi.com/projects/471019694429495297"
@@ -475,8 +524,8 @@
 
             <a
               class="button secondary-button"
-              href="#overview">
-              View Project Overview
+              href="#demo">
+              Watch Demo Video
             </a>
           </div>
 
@@ -550,6 +599,41 @@
         </article>
 
       </div>
+    </section>
+
+    <section class="content-section" id="demo">
+
+      <h2>Demo Video</h2>
+
+      <p>
+        The demonstration shows the Patient Vital Monitor running in
+        Wokwi. It includes the patient-call input, interrupt and
+        bottom-half processing, system architecture, WCET evidence,
+        state-of-health monitoring, and graceful degradation.
+      </p>
+
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/YSD9WOmxKe0"
+          title="Patient Vital Monitor Real-Time Systems Capstone Demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <p class="caption">
+        Patient Vital Monitor final capstone demonstration with voiceover.
+      </p>
+
+      <a
+        class="video-button"
+        href="https://youtu.be/YSD9WOmxKe0"
+        target="_blank"
+        rel="noopener">
+        Watch Video on YouTube
+      </a>
+
     </section>
 
     <section class="content-section" id="architecture">
@@ -827,7 +911,7 @@
           <img
             class="evidence-image"
             src="assets/capstone-isr-logic-analyzer.png"
-            alt="Logic analyzer text showing the GPIO 18 patient-call edge and GPIO 19 ISR timing pulse">
+            alt="Logic analyzer evidence showing the GPIO 18 patient-call edge and GPIO 19 ISR timing pulse">
 
           <p class="caption">
             Logic-analyzer evidence showing the GPIO 18 patient-call
@@ -1314,7 +1398,8 @@
 
               <td>
                 External visibility is reduced, but observability
-                work is separated from the Core 1 real-time plane.
+                work remains separated from the Core 1 real-time
+                plane.
               </td>
 
               <td>
@@ -1388,8 +1473,16 @@
 
   <footer>
     <p>
-      Patient Vital Monitor · Real-Time Systems Final Integration
-      Capstone
+      Patient Vital Monitor · Real-Time Systems Final Integration Capstone
+    </p>
+
+    <p>
+      <a
+        href="https://github.com/Sof-Arq/Capstone"
+        target="_blank"
+        rel="noopener">
+        View Full README and Source Repository
+      </a>
     </p>
   </footer>
 

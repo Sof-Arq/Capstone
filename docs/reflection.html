@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Final Reflection | Patient Vital Monitor
+  </title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7f9;
+      color: #1f2933;
+      line-height: 1.8;
+    }
+
+    header {
+      background: #12344d;
+      color: white;
+      padding: 18px 8%;
+    }
+
+    nav {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    nav h2 {
+      font-size: 1.2rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #12344d, #176b87);
+      color: white;
+      padding: 65px 8%;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #d9edf5;
+      font-size: 1.15rem;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 45px auto;
+      padding: 0 25px;
+    }
+
+    article {
+      background: white;
+      padding: 45px;
+      border-radius: 10px;
+      border-top: 5px solid #176b87;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    article p {
+      margin-bottom: 22px;
+    }
+
+    article p:last-child {
+      margin-bottom: 0;
+    }
+
+    footer {
+      background: #12344d;
+      color: white;
+      text-align: center;
+      padding: 22px;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 700px) {
+      nav {
+        display: block;
+      }
+
+      nav a {
+        display: inline-block;
+        margin-top: 8px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      article {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav>
+      <h2>Patient Vital Monitor</h2>
+
+      <a href="index.html">
+        Return to Portfolio
+      </a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Final Course Reflection</h1>
+
+    <p>
+      EEL 4775 Real-Time Systems
+    </p>
+  </section>
+
+  <main>
+    <article>
+
+      <p>
+        Throughout this course, my knowledge of embedded systems was shifted from basically creating code to run, to making sure it runs good and consistent. The applications showed me dual-core design, scheduling, interrupts, synchronization, timing measurements, and fault detection. The last Patient Vital Monitor took in all these topics and made it into one system that could be tested with evidence.
+      </p>
+
+      <p>
+        One thing I would do differently is plan the architecture and testing earlier. At first, I mainly focused on getting the programs to compile and work in Wokwi. After a while, I realized that the concurrency diagram, task table, priorities, core assignments, WCET values, and test results were also needed as the code. I would also keep all screenshots, configurations, and measurements organized from the start of it.
+      </p>
+
+      <p>
+        The hardest part was connecting the real time concepts to the behavior of the system. Code can work correctly, but still having poor latency, long interrupt execution, race conditions, or priority inversion. In the Patient Vital Monitor, the ISR had to stay short and bounded. The event time, produced a GPIO 19 timing pulse, and released the bottom-half tasks was recorded throughout the whole thing.
+      </p>
+
+      <p>
+        I thought the logic analyzer part was also harder than expected. The VCD data was interpreted by having timestamps and transitions. The data gave the patient input on GPIO 18 and the ISR pulse on GPIO 19. Across five events I tested, the delay was around 15.3 ms, while the ISR pulse width stayed around 4.35 ms.
+      </p>
+
+      <p>
+        Another important experiment involved priority inversion. In Application 4, the high-priority task waited about 386 ms when a mutex gave me priority inheritance. With a binary semaphore used as the lock, the wait increased to about 1400 ms. This made the value of priority inheritance way easier to realize.
+      </p>
+
+      <p>
+        The lesson that I found out to be the most valuable was that real time engineering needs to have evidence. A system should not only be fast or schedulable, but should need to have measured WCET values, utilization calculations, interrupt timing, priorities, core assignments, and fault behavior. In the capstone, the periodic workload had a measured utilization of 17.61%, below the four-task Rate-Monotonic bound of 75.68%.
+      </p>
+
+      <p>
+        The final system had all the real-time work on Core 1 and state of health reporting on Core 0. A direct task notification was chosen to be the primary patient-alert path, but for comparison, the semaphore stayed. The main lesson that I will remember in future projects is that short ISRs, correct synchronization, measured timing, and visible fault reporting are very needed in order to  create a stable and good real-time system.
+      </p>
+
+    </article>
+  </main>
+
+  <footer>
+    <p>
+      Patient Vital Monitor · Real-Time Systems Final Capstone
+    </p>
+  </footer>
+
+</body>
+</html>
